@@ -234,9 +234,13 @@ const deleteCartItem = async(req,res) => {
             });
         }
 
-        const index = userExist.cart.indexOf(productId);
-        if (index > -1) {
-            userExist.cart.splice(index, 1);
+        if (!productId) {
+            userExist.cart = [];
+        } else {
+            const index = userExist.cart.indexOf(productId);
+            if (index > -1) {
+                userExist.cart.splice(index, 1);
+            }
         }
 
         await userExist.save()
