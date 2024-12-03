@@ -150,7 +150,7 @@ const updateUserController = async(req,res)=>{
 
         await userExist.save()
 
-        await userExist.populate("cart address").select("-password -__v")
+        await userExist.select("-password -__v").populate("cart address")
 
         return res.status(201).json(
             {
