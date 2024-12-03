@@ -13,7 +13,7 @@ const productRouter = require("./Routes/productRoutes")
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: ['https://pro-manage-frontend-beta.vercel.app', 'http://localhost:5173'],
+    origin: ['https://food-delivery-app-frontend-delta.vercel.app/', 'http://localhost:5173'],
     credentials: true           
 }));
 
