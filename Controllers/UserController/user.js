@@ -37,6 +37,8 @@ const registerController =  async(req,res)=>{
 
         newUser.address.push(defaultAddress._id)
 
+        await newUser.save()
+
         return res.status(201).json(
             {
                 success: true, 
