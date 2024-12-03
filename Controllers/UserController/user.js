@@ -150,13 +150,13 @@ const updateUserController = async(req,res)=>{
 
         await userExist.save()
 
-        await userExist.select("-password -__v").populate("cart address")
+        const updatedUser = await User.findById(userExist._id).select("-password -__v").populate("cart address").exec()
 
         return res.status(201).json(
             {
                 success: true, 
                 message: "User Updated Successfully",
-                data: userExist   
+                data: updatedUser   
             }
         );
 
