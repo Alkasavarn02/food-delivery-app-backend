@@ -296,7 +296,7 @@ const addAddress = async(req,res) => {
 
         const newAddress = await Address.create({state,city,pinCode,phoneNo,fullAddress})
 
-        const updatedUser = await User.findByIdAndUpdate(user.id,{$push:{address:newAddress._id}},{new:true}).select("-password __v").populate("cart address")
+        const updatedUser = await User.findByIdAndUpdate(userExist._id,{$push:{address:newAddress._id}},{new:true}).populate("cart address").select("-password -__v")
 
         return res.status(201).json(
             {
