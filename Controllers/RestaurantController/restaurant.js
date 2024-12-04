@@ -97,7 +97,7 @@ const getFilteredRestaurant = async(req,res) => {
         }
 
         // find restaurant.
-        const restaurantExist = await Restaurant.find({name:restaurant}).populate("products")
+        const restaurantExist = await Restaurant.find({name:restaurant}).populate("products Customer")
         if(!restaurantExist){
             return res.status(401).json({
                 success: false,

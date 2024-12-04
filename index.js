@@ -8,7 +8,8 @@ const dbConnect = require("./Dbconfig/dbconfig");
 const cloudinaryConnect = require("./cloudinaryconfig/cloudinaryconfig");
 const userRouter = require("./Routes/UserRoutes");
 const restaurantRouter = require("./Routes/restaurantRoutes");
-const productRouter = require("./Routes/productRoutes")
+const productRouter = require("./Routes/productRoutes");
+const customerReview = require("./Routes/customerRoutes");
 
 const PORT = process.env.PORT || 4000;
 
@@ -30,6 +31,7 @@ app.use(fileUpload(
 app.use('/api/v1',userRouter)
 app.use('/api/v1',restaurantRouter)
 app.use("/api/V1",productRouter)
+app.use("/api/V1",customerReview)
 
 app.listen(PORT,()=>{
     console.log(`Server started at Port ${process.env.PORT}`)

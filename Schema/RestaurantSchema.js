@@ -55,6 +55,12 @@ const RestaurantSchema = new mongoose.Schema(
                 type:mongoose.Schema.ObjectId,
                 ref:"Product"
             }
+        ],
+        Customer:[
+            {
+                type:mongoose.Schema.ObjectId,
+                ref:"CustomerReview"
+            }
         ]
 
     }
