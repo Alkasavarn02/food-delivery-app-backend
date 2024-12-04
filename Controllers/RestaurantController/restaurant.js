@@ -97,7 +97,16 @@ const getFilteredRestaurant = async(req,res) => {
         }
 
         // find restaurant.
-        const restaurantExist = await Restaurant.find({name:restaurant}).populate("products Customer")
+        const restaurantExist = await Restaurant.find({name:restaurant})
+        .populate("products")
+        .populate({
+            path: "Customer",
+            populate: {
+                path: "User",
+                select: "userName country"
+            },
+        });
+
         if(!restaurantExist){
             return res.status(401).json({
                 success: false,
@@ -110,7 +119,7 @@ const getFilteredRestaurant = async(req,res) => {
             data: restaurantExist,
         });
 
-    } catch {
+    } catch(err) {
         return res.status(500).json({
             success: false,
             message: `Internal Server Error: ${err.message}`,

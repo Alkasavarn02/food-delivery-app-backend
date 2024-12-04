@@ -3,17 +3,24 @@ const Restaurant = require("../../Schema/RestaurantSchema");
 const User = require("../../Schema/UserSchema");
 
 const CreateReviews = async(req,res) => {
-    try {
 
-            const { userId, restaurantId, reviewText } = req.body;
-    
-            // Check if user and restaurant exist
-            const user = await User.findById(userId);
-            const restaurant = await Restaurant.findById(restaurantId);
-    
+    try {
+            const user = req.user
+
             if (!user) {
+                return res.status(401).json({ message: "Token Missing" });
+            }
+
+            const {restaurantId} = req.params;
+            const {reviewText} = req.body;
+
+            const userExist = await User.findById(user.id);
+    
+            if (!userExist) {
                 return res.status(404).json({ message: "User not found" });
             }
+
+            const restaurant = await Restaurant.findById(restaurantId);
     
             if (!restaurant) {
                 return res.status(404).json({ message: "Restaurant not found" });
@@ -21,18 +28,20 @@ const CreateReviews = async(req,res) => {
     
             // Create new review
             const newReview = await CustomerReviews.create({
-                User: userId,
-                restaurantId: restaurantId,
+                User:userExist._id,
+                restaurantId:restaurant._id,
                 reviewText: reviewText,
-            });
+            })
 
-            const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId,{$push:{Customer:newReview._id}},{new:true}).populate("Customer")
+            await newReview.populate("User")
+
+            await Restaurant.findByIdAndUpdate(restaurantId,{$push:{Customer:newReview._id}},{new:true})
     
             // Send response
             res.status(201).json({
                 success: true,
                 message: "Review created successfully!",
-                data: updatedRestaurant,
+                data: newReview,
             });
 
         } catch (error) {
